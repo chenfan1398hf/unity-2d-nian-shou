@@ -26,5 +26,5 @@ public class ConfigManager
 }
 public class PlayerInfo
 {
-    public bool haveChunLian = false;
+    public int haveChunLian = 0; 
 }

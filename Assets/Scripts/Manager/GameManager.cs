@@ -51,6 +51,7 @@ public class GameManager :MonoSingleton<GameManager>
     private void Start()
     {
         this.InvokeRepeating("CheckTime", 0, 0.1f);
+        BeginGame();
     }
 
     void CheckTime()
@@ -330,27 +331,31 @@ public class GameManager :MonoSingleton<GameManager>
         return allGameObjects.ToArray();
     }
 
-    PlayerInfo playerInfo = new PlayerInfo();
+    public PlayerInfo playerInfo = new PlayerInfo();
     public GameObject men1Obj;
     public GameObject men2Obj;
+
+    public GameObject panelBase1;
     //开始游戏
     public void BeginGame()
     {
-        
+        InitData();
     }
     //初始化数据
     public void InitData()
     {
         men1Obj.SetActive(true);
         men2Obj.SetActive(false);
+        panelBase1.SetActive(false);
     }
     //开门
     public void OpenDoor()
     {
-        if (playerInfo.haveChunLian)
+        if (playerInfo.haveChunLian == 1)
         {
             men1Obj.SetActive(false);
             men2Obj.SetActive(true);
+            playerInfo.haveChunLian = 2;
         }
     }
     

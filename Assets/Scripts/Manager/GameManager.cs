@@ -343,10 +343,13 @@ public class GameManager :MonoSingleton<GameManager>
     public GameObject panelBase1;
     public GameObject panelBase2;
     public GameObject panelBase3;
+    public MusicManager musicManager;
     //开始游戏
     public void BeginGame()
     {
         InitData();
+        musicManager = new MusicManager();
+        musicManager.PlayBkMusic("123");
     }
     //初始化数据
     public void InitData()

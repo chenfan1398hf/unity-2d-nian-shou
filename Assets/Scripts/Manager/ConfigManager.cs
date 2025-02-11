@@ -24,3 +24,7 @@ public class ConfigManager
     //    return mLanguageCfg.Find((item) => item.key == key);
     //}
 }
+public class PlayerInfo
+{
+    public bool haveChunLian = false;
+}

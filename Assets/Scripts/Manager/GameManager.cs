@@ -297,7 +297,7 @@ public class GameManager :MonoSingleton<GameManager>
         PlayerData.ClearLocalData();
     }
 
-#if UNITY_EDITOR
+#if UNITY_EDITORt
     [UnityEditor.MenuItem("Editor/Tools/Clear")]
     static void CleraPlayerData1()
     {
@@ -329,4 +329,29 @@ public class GameManager :MonoSingleton<GameManager>
         }
         return allGameObjects.ToArray();
     }
+
+    PlayerInfo playerInfo = new PlayerInfo();
+    public GameObject men1Obj;
+    public GameObject men2Obj;
+    //开始游戏
+    public void BeginGame()
+    {
+        
+    }
+    //初始化数据
+    public void InitData()
+    {
+        men1Obj.SetActive(true);
+        men2Obj.SetActive(false);
+    }
+    //开门
+    public void OpenDoor()
+    {
+        if (playerInfo.haveChunLian)
+        {
+            men1Obj.SetActive(false);
+            men2Obj.SetActive(true);
+        }
+    }
+    
 }

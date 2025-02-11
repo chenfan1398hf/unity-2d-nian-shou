@@ -25,14 +25,33 @@ public class player : MonoBehaviour
                 GameManager.instance.playerInfo.haveChunLian = 1;
                 Destroy(collision.gameObject);
             }
-           
         }
+        if (collision.gameObject.tag == "jiandao")
+        {
+            GameManager.instance.playerInfo.jiandao = true;
+            Destroy(collision.gameObject);
+        }
+        if (collision.gameObject.tag == "hongzhi")
+        {
+            GameManager.instance.playerInfo.hongzhi = true;
+            Destroy(collision.gameObject);
+        }
+
         if (collision.gameObject.tag == "men")
         {
             if (GameManager.instance.playerInfo.haveChunLian != 2)
             {
                 GameManager.instance.panelBase1.SetActive(true);
             }
+        }
+        if (collision.gameObject.tag == "men2")
+        {
+             GameManager.instance.panelBase3.SetActive(true);
+        }
+        if (collision.gameObject.tag == "bandeng")
+        {
+            GameManager.instance.panelBase2.SetActive(true);
+          
         }
     }
     public void OnTriggerExit2D(Collider2D collision)
@@ -42,6 +61,18 @@ public class player : MonoBehaviour
             
              GameManager.instance.panelBase1.SetActive(false);
            
+        }
+        if (collision.gameObject.tag == "men2")
+        {
+
+            GameManager.instance.panelBase3.SetActive(false);
+
+        }
+        if (collision.gameObject.tag == "bandeng")
+        {
+
+            GameManager.instance.panelBase2.SetActive(false);
+
         }
     }
 }

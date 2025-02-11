@@ -26,5 +26,9 @@ public class ConfigManager
 }
 public class PlayerInfo
 {
-    public int haveChunLian = 0; 
+    public int haveChunLian = 0;
+    public bool jiandao = false;
+    public bool hongzhi = false;
+    public bool jianzhi = false;
+    public bool kaimen2 = false;
 }

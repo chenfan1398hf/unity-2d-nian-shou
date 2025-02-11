@@ -334,8 +334,12 @@ public class GameManager :MonoSingleton<GameManager>
     public PlayerInfo playerInfo = new PlayerInfo();
     public GameObject men1Obj;
     public GameObject men2Obj;
+    public GameObject men3Obj;
+    public GameObject men4Obj;
 
     public GameObject panelBase1;
+    public GameObject panelBase2;
+    public GameObject panelBase3;
     //开始游戏
     public void BeginGame()
     {
@@ -346,7 +350,11 @@ public class GameManager :MonoSingleton<GameManager>
     {
         men1Obj.SetActive(true);
         men2Obj.SetActive(false);
+        men3Obj.SetActive(true);
+        men4Obj.SetActive(false);
         panelBase1.SetActive(false);
+        panelBase2.SetActive(false);
+        panelBase3.SetActive(false);
     }
     //开门
     public void OpenDoor()
@@ -356,6 +364,24 @@ public class GameManager :MonoSingleton<GameManager>
             men1Obj.SetActive(false);
             men2Obj.SetActive(true);
             playerInfo.haveChunLian = 2;
+        }
+    }
+    //剪纸
+    public void JianZhi()
+    {
+        if (playerInfo.jiandao && playerInfo.hongzhi)
+        {
+            playerInfo.jianzhi = true;
+        }
+    }
+    //开门2
+    public void OpenDoor2()
+    {
+        if (playerInfo.jianzhi)
+        {
+            men3Obj.SetActive(false);
+            men4Obj.SetActive(true);
+            
         }
     }
     

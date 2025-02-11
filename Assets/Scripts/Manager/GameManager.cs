@@ -8,6 +8,8 @@ using UnityEngine.UI;
 using Spine.Unity;
 using UnityEngine.SceneManagement;
 using DG.Tweening;
+using UnityEngine.Rendering.Universal;
+using UnityEngine.Rendering;
 
 public class GameManager :MonoSingleton<GameManager>
 {
@@ -61,7 +63,7 @@ public class GameManager :MonoSingleton<GameManager>
 
         if (TimeNumber % 10 == 0)
         {
-       
+            ChangeHouChuLi();
         }
         if (TimeNumber % 20 == 0)
         {
@@ -434,5 +436,42 @@ public class GameManager :MonoSingleton<GameManager>
         yield return new WaitForSeconds(3.5f);
         Destroy(BoosObj);
     }
-    
+    //修改后处理
+    public Volume globalVolume;
+    private Vignette vignette;
+    private float vNumber = 0.6f;
+    public void ChangeHouChuLi()
+    {
+        float number = 0f;
+        if (playerInfo.haveChunLian == 2)
+        {
+            number += 0.1f;
+        }
+        if (playerInfo.jianzhi)
+        {
+            number += 0.1f;
+        }
+        if (playerInfo.kaimen2)
+        {
+            number += 0.1f;
+        }
+        if (playerInfo.bianpao)
+        {
+            number += 0.1f;
+        }
+
+        SetVignetteIntensity(vNumber - number);
+    }
+    public void SetVignetteIntensity(float intensity)
+    {
+        globalVolume.profile.TryGet(out vignette);
+
+        if (vignette != null)
+        {
+            // 确保强度在合理范围内
+            intensity = Mathf.Clamp(intensity, 0f, 1f);
+            vignette.intensity.value = intensity;
+            Debug.Log("Vignette 强度设置为: " + intensity);
+        }
+    }
 }

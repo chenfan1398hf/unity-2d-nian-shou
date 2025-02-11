@@ -31,4 +31,5 @@ public class PlayerInfo
     public bool hongzhi = false;
     public bool jianzhi = false;
     public bool kaimen2 = false;
+    public bool bianpao = false;
 }

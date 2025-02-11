@@ -53,6 +53,10 @@ public class player : MonoBehaviour
             GameManager.instance.panelBase2.SetActive(true);
           
         }
+        if (collision.gameObject.tag == "bianpao")
+        {
+            StartCoroutine(GameManager.instance.Boom(collision.gameObject));
+        }
     }
     public void OnTriggerExit2D(Collider2D collision)
     {

@@ -7,6 +7,7 @@ using UnityEngine.Networking;
 using UnityEngine.UI;
 using Spine.Unity;
 using UnityEngine.SceneManagement;
+using DG.Tweening;
 
 public class GameManager :MonoSingleton<GameManager>
 {
@@ -336,6 +337,8 @@ public class GameManager :MonoSingleton<GameManager>
     public GameObject men2Obj;
     public GameObject men3Obj;
     public GameObject men4Obj;
+    public GameObject BoosObj;
+    public List<GameObject> bianPaoList = new List<GameObject>();
 
     public GameObject panelBase1;
     public GameObject panelBase2;
@@ -355,6 +358,11 @@ public class GameManager :MonoSingleton<GameManager>
         panelBase1.SetActive(false);
         panelBase2.SetActive(false);
         panelBase3.SetActive(false);
+
+        foreach (var item in bianPaoList)
+        {
+            item.SetActive(false);
+        }
     }
     //开门
     public void OpenDoor()
@@ -383,6 +391,45 @@ public class GameManager :MonoSingleton<GameManager>
             men4Obj.SetActive(true);
             
         }
+    }
+    //获得鞭炮
+    public void AddBianPao()
+    {
+        playerInfo.bianpao = true;
+
+        foreach (var item in bianPaoList)
+        {
+            item.SetActive(true);
+        }
+    }
+    private int boomNumber = 0;
+    //BOOM
+    public IEnumerator Boom(GameObject _obj)
+    {
+        var spr = _obj.GetComponent<SpriteRenderer>().color;
+        spr.a = 1f;
+        _obj.GetComponent<SpriteRenderer>().color = spr;
+
+        yield return new WaitForSeconds(3f);
+
+        _obj.transform.Find("boom").gameObject.SetActive(true);
+
+        yield return new WaitForSeconds(1f);
+        _obj.SetActive(false);
+        boomNumber++;
+        StartCoroutine(CheckBoom());
+    }
+    //检查爆炸数量
+    public IEnumerator CheckBoom()
+    {
+        if (boomNumber >= bianPaoList.Count)
+        {
+            //结束
+            var spriteRenderer = BoosObj.transform.GetComponent<SpriteRenderer>();
+            spriteRenderer.DOColor(new Color(spriteRenderer.color.r, spriteRenderer.color.g, spriteRenderer.color.b, 0), 2f);
+        }
+        yield return new WaitForSeconds(3.5f);
+        Destroy(BoosObj);
     }
     
 }

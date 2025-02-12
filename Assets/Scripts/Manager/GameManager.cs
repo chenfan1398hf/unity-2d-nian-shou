@@ -363,6 +363,7 @@ public class GameManager :MonoSingleton<GameManager>
         panelBase1.SetActive(false);
         panelBase2.SetActive(false);
         panelBase3.SetActive(false);
+        ptPanelObj.SetActive(false);
 
         foreach (var item in bianPaoList)
         {
@@ -471,7 +472,60 @@ public class GameManager :MonoSingleton<GameManager>
             // 确保强度在合理范围内
             intensity = Mathf.Clamp(intensity, 0f, 1f);
             vignette.intensity.value = intensity;
-            Debug.Log("Vignette 强度设置为: " + intensity);
         }
+    }
+    //拼图游戏
+    private Sprite[] spriteArray;
+    public GameObject ptPanelObj;
+    private int regNumber = 0;
+    public void BeginPingTuGame()
+    {
+        ptPanelObj.SetActive(true);
+        InitPt();
+    }
+    //初始化拼图数据
+    public void InitPt()
+    {
+        //初始化拼图碎片
+        spriteArray = Resources.LoadAll<Sprite>("Tex/9");
+        for (int i = 0; i < spriteArray.Length; i++)
+        {
+            var image = ptPanelObj.transform.Find("list/Image" + i).GetComponent<Image>();
+            image.sprite = spriteArray[i];
+            var obj = AddPrefab("Card", ptPanelObj.transform);
+            int randX = Util.randomInt(-800, 100);
+            int randY = Util.randomInt(-300, 300);
+            obj.GetComponent<card>().InitCard(i, new Vector2(randX, randY));
+            obj.GetComponent<Image>().sprite = spriteArray[i];
+        }
+
+    }
+    //检查位置是否OK
+    public bool CheckCardVec(int _id, Vector3 _vec3)
+    {
+        GameObject obj = ptPanelObj.transform.Find("list/Image" + _id).gameObject;
+        // 检查两个位置是否在指定范围内
+        bool isWithinRange = IsWithinDistance(obj.transform.position, _vec3, 50f);
+        if (isWithinRange)
+        {
+            obj.SetActive(true);
+            regNumber++;
+            if (regNumber >= spriteArray.Length)
+            {
+                //完成拼图
+                ptPanelObj.SetActive(false);
+                AddBianPao();
+            }
+        }
+        return isWithinRange;
+    }
+    // 计算两个Vector3位置之间的距离，并判断是否在指定范围内
+    bool IsWithinDistance(Vector3 position1, Vector3 position2, float threshold)
+    {
+        // 计算两个位置之间的距离
+        float distance = Vector3.Distance(position1, position2);
+        Debug.Log(distance);
+        // 判断距离是否小于阈值
+        return distance < threshold;
     }
 }

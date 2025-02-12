@@ -57,6 +57,10 @@ public class player : MonoBehaviour
         {
             StartCoroutine(GameManager.instance.Boom(collision.gameObject));
         }
+        if (collision.gameObject.tag == "hua")
+        {
+            GameManager.instance.BeginPingTuGame();
+        }
     }
     public void OnTriggerExit2D(Collider2D collision)
     {

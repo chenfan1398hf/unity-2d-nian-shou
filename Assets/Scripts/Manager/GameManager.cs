@@ -345,6 +345,8 @@ public class GameManager :MonoSingleton<GameManager>
     public GameObject panelBase1;
     public GameObject panelBase2;
     public GameObject panelBase3;
+    public GameObject panelMsg;
+    public GameObject endPanel;
     public MusicManager musicManager;
     //开始游戏
     public void BeginGame()
@@ -364,6 +366,8 @@ public class GameManager :MonoSingleton<GameManager>
         panelBase2.SetActive(false);
         panelBase3.SetActive(false);
         ptPanelObj.SetActive(false);
+        panelMsg.SetActive(false);
+        endPanel.SetActive(false);
 
         foreach (var item in bianPaoList)
         {
@@ -407,6 +411,7 @@ public class GameManager :MonoSingleton<GameManager>
         {
             item.SetActive(true);
         }
+        panelMsg.SetActive(true);
     }
     private int boomNumber = 0;
     //BOOM
@@ -434,8 +439,11 @@ public class GameManager :MonoSingleton<GameManager>
             var spriteRenderer = BoosObj.transform.GetComponent<SpriteRenderer>();
             spriteRenderer.DOColor(new Color(spriteRenderer.color.r, spriteRenderer.color.g, spriteRenderer.color.b, 0), 2f);
         }
-        yield return new WaitForSeconds(3.5f);
+        yield return new WaitForSeconds(3f);
         Destroy(BoosObj);
+
+        endPanel.SetActive(true);
+        endPanel.transform.Find("Image").GetComponent<Image>().DOFade(1f, 5f);
     }
     //修改后处理
     public Volume globalVolume;

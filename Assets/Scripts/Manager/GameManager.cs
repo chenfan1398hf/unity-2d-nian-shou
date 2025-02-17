@@ -348,12 +348,46 @@ public class GameManager :MonoSingleton<GameManager>
     public GameObject panelMsg;
     public GameObject endPanel;
     public MusicManager musicManager;
+    public GameObject beginGamePanel;
     //开始游戏
     public void BeginGame()
     {
         InitData();
         musicManager = new MusicManager();
         musicManager.PlayBkMusic("123");
+        BeginPanel();
+    }
+    public void BeginPanel()
+    {
+        beginGamePanel.SetActive(true);
+        beginGamePanel.transform.Find("Image").GetComponent<Image>().DOFade(1f, 10f);
+        StartTypewriter("年关将至，年兽来袭，村庄哀鸿遍野。少年勇者挺身而出，誓要为乡亲除害，守护新年安宁。");
+    }
+    public Text textComponent; // 需要显示文字的 Text 组件
+    private float duration = 10f; // 打字机效果的持续时间
+    private float delayBetweenCharacters = 0.1f; // 每个字符之间的延迟时间
+
+    private string _targetText; // 目标文字
+    public void StartTypewriter(string text)
+    {
+        _targetText = text;
+        textComponent.text = ""; // 清空初始文字
+
+        // 使用 DOTween 实现打字机效果
+        DOTween.To(
+            () => textComponent.text, // 获取当前文字
+            x => textComponent.text = x, // 设置当前文字
+            _targetText, // 目标文字
+            duration // 持续时间
+        ).SetEase(Ease.Linear) // 线性变化
+         .SetDelay(0.5f) // 延迟开始（可选）
+         .OnUpdate(() => {
+             // 每个字符之间的延迟
+             if (textComponent.text.Length < _targetText.Length)
+             {
+                 textComponent.text += _targetText[textComponent.text.Length];
+             }
+         });
     }
     //初始化数据
     public void InitData()
